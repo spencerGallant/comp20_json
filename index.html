@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+	<title>Bands</title>
+	<style type="text/css">
+	</style>
+</head>
+
+<body style="background-color:powderblue;">
+
+	<div style="align-content: center; text-align: center">
+		<h2>Serialized:</h2>
+	  	<div class="serial" id="serial"></div>
+	  	<hr style="border-top: 1px solid black">
+	  	<h2>User friendly display:</h2>
+	  	<div class="user-friendly" id="user-friendly"></div>
+	  	<hr style="border-top: 1px solid black">
+		<h2>Select Genre:</h2>
+		<p style="font-style: italic; font-size: 13px"> select genre and then scroll down to see all songs in that genre </p>
+		<form>
+	      <select id="genreSelect" size="9" style="width: 100px; text-decoration-color: text-align">
+	        <option value="R&B">R&B</option>
+	        <option value="Rap">Rap</option>
+	        <option value="Pop">Pop</option>
+	        <option value="Electropop">Electropop</option>
+	        <option value="Soul">Soul</option>
+	        <option value="Rock">Rock</option>
+	        <option value="Jazz Funk">Jazz Funk</option>
+	        <option value="Hip Hop">Hip Hop</option>
+	        <option value="Psychedelic folk">Psychedelic folk</option>
+	      </select>
+	      <br>
+	      <input type="button" value="Filter" onclick="return find();">
+	    </form>
+	     <div class="genre_heading" id="genre_heading" style="font-size: 20px"></div>
+	     <div class="genre" id="genre"></div>
+ 	</div>
+
+	<script language="javascript">
+    	var songs = [
+			{"title":"Godspeed", "year":2016, "artists":["Frank Ocean"], "genres":["R&B", "Rap"]},
+        	{"title":"Everything Has Changed", "year":2012, "artists":["Taylor Swift", "Ed Sheeran"], "genres":["Pop"]},
+       		{"title":"Supercut", "year":2017, "artists":["Lorde"], "genres":["Pop", "Electropop"]},
+        	{"title":"Gravity", "year":2008, "artists":["Kanye West"], "genres":["Pop"]},
+        	{"title":"I Want to Hold Your Hand", "year":1963, "artists":["The Beatles"], "genres":["R&B"]},
+        	{"title":"Sunflower", "year":2019, "artists":["Vampire Weekend", "Steve Lacy"], "genres":["Soul", "Rock", "Jazz Funk"]},
+        	{"title":"Take me to Church", "year":2013, "artists":["Hozier"], "genres":["Soul", "Rock", "Blues"]},
+        	{"title":"Reborn", "year":2018, "artists":["Kanye West", "Kid Cuddi"], "genres":["Hip Hop"]},
+        	{"title":"All the Pretty Girls", "year":2017, "artists":["Kenney Chesney"], "genres":["Pop"]},
+        	{"title":"Rivers and Roads", "year":2011, "artists":["The Head and the Heart"], "genres":["Rock"]},
+        	{"title":"Dirty Paws", "year":2012, "artists":["Of Monsters and Men"], "genres":["Indi folk", "Rock"]},
+        	{"title":"Lucy in the Sky with Diamonds", "year":1967, "artists":["The Beatles"], "genres":["Rock", "Pop"]},
+        	{"title":"In the Aeroplane Over the Sea", "year":1998, "artists":["Neutral Milk Hotel"], "genres":["Rock", "Psychedelic folk"]},
+      	];
+
+		for (var i = 0; i < songs.length; i++) {
+		    document.getElementById("serial").innerHTML += JSON.stringify(songs[i]) + "<br>";
+		}
+
+		for (var i = 0; i < songs.length; i++) {
+			output = get_song(i);
+		    document.getElementById("user-friendly").innerHTML += output;		    
+		}
+
+		function get_song(i){
+			//song
+			song = songs[i].title;
+
+			//artist
+			artist = songs[i].artists[0];
+		    for (var j = 1; j < songs[i].artists.length; j++) {
+		    	artist += ", " + songs[i].artists[j];
+		    }
+
+		    //genre
+			genre = songs[i].genres[0];
+		    for (var j = 1; j < songs[i].genres.length; j++) {
+		    	genre += ", " + songs[i].genres[j];
+		    }
+
+		    //year
+		    year = songs[i].year;
+
+		    output = "<b> " + song + " </b> <br> Artist(s): " + artist + "<br>Genre(s): " + genre + "<br>Year: " + year +"<br><br>";
+
+		    return output;
+		}
+
+		function find() {
+			g = document.getElementById("genreSelect").value;
+	        document.getElementById("genre").innerHTML = "";
+	        
+	        document.getElementById("genre_heading").innerHTML = "<br>" + g + " songs: <br><br>";
+	        for (var i = 0; i < songs.length; i++) {
+	          for (var j = 0; j < songs[i].genres.length; j++) {
+	            if (songs[i].genres[j] == g) {
+	            	document.getElementById("genre").innerHTML += get_song(i);
+	            }
+	          }
+	        }
+	        return true;
+      	}
+
+	</script>
+
+</body>
+</html>
